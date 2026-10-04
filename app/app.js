@@ -8,12 +8,12 @@
 const UI = {
   pt: {
     appName: "Folha de Café",
-    hint: "Coloque uma folha dentro da moldura e toque",
+    hint: "Uma folha só, solta, ocupando a moldura. Depois toque.",
     checking: "Analisando…",
     ok: "Saudável", bad: "Problema encontrado", unsure: "Não tenho certeza",
     today: "Faça hoje", call: "Chame o técnico",
     sure: "de certeza", again: "Analisar outra folha", retake: "Tirar a foto de novo",
-    savedNote: "Foto salva. Será enviada ao técnico da extensão rural quando houver sinal.",
+    savedNote: "Foto salva. Será enviada ao técnico agrícola quando houver sinal.",
     queueTitle: "Aguardando envio", empty: "Nada aguardando.",
     online: "Com sinal.", offline: "Sem sinal. Serão enviadas depois.",
     sendNow: "Enviar agora", sendStub: "Envio ainda não implementado (demonstração).",
@@ -22,10 +22,11 @@ const UI = {
     bestGuess: "palpite",
     noVoice: "Este celular não tem voz em português sem internet.",
     likely: "provável", veryLikely: "muito provável",
+    notLeaf: "Isto não parece uma folha. Fotografe uma folha só, ocupando a moldura.",
   },
   sw: {
     appName: "Jani la Kahawa",
-    hint: "Weka jani moja ndani ya fremu, kisha bonyeza",
+    hint: "Jani moja lililochumwa, lijaze fremu. Kisha bonyeza.",
     checking: "Inakagua…",
     ok: "Afya njema", bad: "Tatizo limeonekana", unsure: "Sina uhakika",
     today: "Fanya leo", call: "Mpigie afisa ugani",
@@ -39,10 +40,11 @@ const UI = {
     bestGuess: "makisio",
     noVoice: "Simu hii haina sauti ya Kiswahili bila mtandao.",
     likely: "inawezekana", veryLikely: "inawezekana sana",
+    notLeaf: "Hii haionekani kama jani. Piga picha ya jani moja, lijaze fremu.",
   },
   en: {
     appName: "Coffee Leaf Check",
-    hint: "Put one leaf inside the frame, then tap",
+    hint: "One loose leaf, filling the frame. Then tap.",
     checking: "Checking…",
     ok: "Healthy", bad: "Problem found", unsure: "Not sure",
     today: "Do today", call: "Call the extension officer",
@@ -56,18 +58,21 @@ const UI = {
     bestGuess: "best guess",
     noVoice: "This phone has no offline voice for English.",
     likely: "likely", veryLikely: "very likely",
+    notLeaf: "This does not look like a leaf. Photograph one leaf, filling the frame.",
   },
 };
 
 const ABOUT = {
   pt: `<p><b>O que faz.</b> Analisa uma folha de café arábica e identifica cinco situações: saudável, ferrugem, cercosporiose, mancha de Phoma e bicho-mineiro. Funciona neste celular, sem internet.</p>
-<p><b>O que não faz.</b> Não recomenda produtos químicos nem doses. Quando não tem certeza, diz isso e guarda a foto para o técnico da extensão rural. Quem decide é uma pessoa.</p>
-<p><b>Limites.</b> Testado com fotos do BRACOL, do Brasil: folhas soltas, quase sempre com fundo limpo. Não foi testado com outras variedades, outros países, outras doenças nem fotos da planta inteira.</p>
-<p class="small">Base de dados BRACOL (Krohling, Esgario, Ventura; Mendeley Data, CC BY 4.0). Modelo: Qwen3.5 (Alibaba Qwen). Execução: llama.cpp. Voz: ElevenLabs, gravada antes e tocada sem internet.</p>`,
+<p><b>O que não faz.</b> Não recomenda produtos químicos nem doses. Quando não tem certeza, diz isso e guarda a foto para o técnico agrícola. Quem decide é uma pessoa.</p>
+<p><b>Limites.</b> Testado com fotos do BRACOL (Brasil) e do JMuBEN (Quênia): uma folha solta, quase sempre com fundo limpo. Não foi testado com folhas ainda no pé, outras variedades, outras doenças nem fotos da planta inteira.</p>
+<p><b>Precisão.</b> 90,8% no conjunto de teste do BRACOL (1.266 fotos). Em fotos de outro tipo, a precisão cai bastante.</p>
+<p class="small">Dados: BRACOL (Krohling, Esgario, Ventura) e JMuBEN (Jepkoech et al.), Mendeley Data, CC BY 4.0. Modelo base: Qwen3.5-2B, Apache 2.0, quantizado e ajustado pela equipe. Execução: llama.cpp (MIT). Voz: ElevenLabs, gravada antes e tocada sem internet.</p>`,
   en: `<p><b>What it does.</b> Checks one Arabica coffee leaf for five conditions: healthy, leaf rust, brown eye spot, Phoma, leaf miner. Runs on this phone with no internet.</p>
 <p><b>What it does not do.</b> It does not recommend chemicals or doses. When it is not sure, it says so and saves the photo for the extension officer. A person makes the final call.</p>
-<p><b>Limits.</b> Tested on BRACOL photos from Brazil: single leaves, mostly clean backgrounds. Not tested on other varieties, other countries, other diseases, or photos of whole trees.</p>
-<p class="small">BRACOL dataset (Krohling, Esgario, Ventura; Mendeley Data, CC BY 4.0). Model: Qwen3.5 (Alibaba Qwen). Runtime: llama.cpp. Voice: ElevenLabs, recorded in advance and played offline.</p>`,
+<p><b>Limits.</b> Tested on BRACOL (Brazil) and JMuBEN (Kenya) photos: one loose leaf, mostly on a clean background. Not tested on leaves still on the plant, other varieties, other diseases, or whole trees.</p>
+<p><b>Accuracy.</b> 90.8% on the BRACOL test set (1,266 photos). On other kinds of photos it drops a lot.</p>
+<p class="small">Data: BRACOL (Krohling, Esgario, Ventura) and JMuBEN (Jepkoech et al.), Mendeley Data, CC BY 4.0. Base model: Qwen3.5-2B, Apache 2.0, quantized and fine-tuned by the team. Runtime: llama.cpp (MIT). Voice: ElevenLabs, recorded in advance and played offline.</p>`,
   sw: `<p><b>Kinachofanya.</b> Hukagua jani moja la kahawa ya Arabika kwa hali tano: lenye afya, kutu, madoa ya jicho kahawia, Phoma, mchimba jani. Hufanya kazi kwenye simu hii bila mtandao.</p>
 <p><b>Kisichofanya.</b> Hakipendekezi dawa wala vipimo. Kisipokuwa na uhakika, husema hivyo na kuhifadhi picha kwa ajili ya afisa ugani. Uamuzi wa mwisho ni wa mtu.</p>
 <p><b>Mipaka.</b> Kimejaribiwa kwa picha za BRACOL kutoka Brazili: jani moja moja, mandharinyuma safi. Hakijajaribiwa kwa aina nyingine, nchi nyingine, magonjwa mengine, wala picha za mti mzima.</p>
@@ -202,11 +207,13 @@ async function check(source) {
 
     const img = await resize(bmp);
     const t0 = performance.now();
-    const probs = await classify(img.dataUrl);
+    // Leaf check first (see config.leaf_gate); only a leaf goes to the package diagnosis.
+    const isLeaf = await leafGate(img.dataUrl);
+    const probs = isLeaf ? await classify(img.dataUrl) : null;
     const ms = Math.round(performance.now() - t0);
-    const d = decide(probs);
+    const d = isLeaf ? decide(probs) : { top: null, p: 0, unsure: true, key: "unsure", notLeaf: true };
     last = { ...d, probs, ms, w: img.w, h: img.h };
-    if (d.unsure) await queueAdd({ time: Date.now(), blob: img.blob, top: d.top, p: d.p, probs, model: CFG.model_label });
+    if (d.unsure && !d.notLeaf) await queueAdd({ time: Date.now(), blob: img.blob, top: d.top, p: d.p, probs, model: CFG.model_label });
     console.log("[leaf]", JSON.stringify({ ms, top: d.top, p: d.p, unsure: d.unsure, probs }));
     renderResult(last, true);
     refreshCount();
@@ -246,26 +253,42 @@ function grammarFor(letters) {
   return `root ::= [${letters[0]}-${letters[letters.length - 1]}]`;
 }
 
+// The package diagnosis request, exactly as specified.
 async function classify(dataUrl) {
   const letters = CFG.letters;
   if (CFG.mock) return mockProbs(letters);
+  return letterProbs(await ask(dataUrl, PROMPT.system, PROMPT.user, PROMPT.grammar || grammarFor(letters)), letters);
+}
+
+async function leafGate(dataUrl) {
+  const g = CFG.leaf_gate;
+  if (!g || !g.enabled || CFG.mock) return true;
+  // Package system text, adapter as loaded: the fine-tuned model still answers "is this a leaf?" well.
+  const lora = g.lora_scale == null ? undefined : [{ id: 0, scale: g.lora_scale }];
+  const p = letterProbs(await ask(dataUrl, g.system || PROMPT.system, g.user, g.grammar, lora), "AB");
+  console.log("[gate]", JSON.stringify(p));
+  return p.A > p.B;
+}
+
+async function ask(dataUrl, system, user, grammar, lora) {
   const body = {
     messages: [
-      { role: "system", content: PROMPT.system },
+      { role: "system", content: system },
       { role: "user", content: [
         { type: "image_url", image_url: { url: dataUrl } },
-        { type: "text", text: PROMPT.user },
+        { type: "text", text: user },
       ] },
     ],
-    grammar: PROMPT.grammar || grammarFor(letters),
+    grammar,
     chat_template_kwargs: CFG.chat_template_kwargs,
     ...CFG.sampling,
+    ...(lora ? { lora } : {}),
   };
   const r = await fetch(CFG.server + "/v1/chat/completions", {
     method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
   });
   if (!r.ok) throw new Error(`Model server error ${r.status}: ${(await r.text()).slice(0, 300)}`);
-  return letterProbs(await r.json(), letters);
+  return r.json();
 }
 
 // Read the per-letter probabilities of the first generated token.
@@ -277,7 +300,7 @@ function letterProbs(resp, letters) {
   const list = first.top_probs || first.top_logprobs || [];
   const p = Object.fromEntries([...letters].map((L) => [L, 0]));
   for (const e of list) {
-    const tok = String(e.token ?? "").trim();
+    const tok = String(e.token ?? ""); // exact token: " A" or "a" are not the grammar's letters
     if (tok in p) p[tok] += e.prob ?? Math.exp(e.logprob);
   }
   return p;
@@ -327,11 +350,11 @@ function renderResult(r, autoplay) {
     `${r.unsure ? "" : `<span class="status s-${kind}">${t(kind)}</span>`}
      <div class="title"><h2>${esc(c.name)}</h2>${hasVoice ? `<button class="speak" data-act="speak" aria-label="play">${SPEAKER}</button>` : ""}</div>
      ${enName ? `<p class="en-name">${esc(enName)}</p>` : ""}
-     <p class="looks">${esc(c.looks)}</p>
+     <p class="looks">${r.notLeaf ? t("notLeaf") : esc(c.looks)}</p>
      ${r.unsure ? "" : `<div class="conf s-${kind}" style="background:none"><div class="bar"><i style="width:${pct}%"></i></div><span>${word}</span></div>`}
      <div class="block"><h3>${t("today")}</h3><p>${esc(c.today)}</p></div>
-     <div class="block"><h3>${t("call")}</h3><p>${esc(c.call)}</p></div>
-     ${r.unsure ? `<p class="saved">${t("savedNote")}</p>` : ""}
+     ${r.notLeaf ? "" : `<div class="block"><h3>${t("call")}</h3><p>${esc(c.call)}</p></div>`}
+     ${r.unsure && !r.notLeaf ? `<p class="saved">${t("savedNote")}</p>` : ""}
      <p class="src">${esc(c.source)}</p>
      <button class="cta" data-act="again">${r.unsure ? t("retake") : t("again")}</button>
      <p class="meta">${CFG.mock ? "MOCK · " : ""}${esc(CFG.model_label)} · ${r.ms} ms · offline</p>`,

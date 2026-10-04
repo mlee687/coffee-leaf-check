@@ -1,9 +1,9 @@
 {
-  "_status": "DRAFT. Portuguese (pt-BR) and Swahili not yet checked by native speakers. Source lines to be checked before the video.",
+  "_status": "pt name+looks: Youchan's fixed CARDS (translate_pt.py), source of truth. pt today/call, en, sw: DRAFT, not checked by native speakers.",
   "healthy": {
     "pt": {
-      "name": "Folha saudável",
-      "looks": "Verde por igual e brilhante. Sem manchas, pó, furos ou partes secas.",
+      "name": "Folha sadia",
+      "looks": "Nenhum sinal de doença ou praga.",
       "today": "Nada a fazer. Confira algumas folhas de outros pés, inclusive a parte de baixo.",
       "call": "Se aparecerem manchas ou pó em outros pés, confira essas folhas também.",
       "source": "Sintomas: base de dados BRACOL (Esgario et al., 2020)."
@@ -25,10 +25,10 @@
   },
   "rust": {
     "pt": {
-      "name": "Ferrugem do cafeeiro",
-      "looks": "Pó amarelo-alaranjado embaixo da folha; manchas amareladas em cima que ficam marrons.",
+      "name": "Ferrugem-do-cafeeiro",
+      "looks": "Manchas alaranjadas e pó na face inferior da folha.",
       "today": "Marque este pé. Olhe a parte de baixo das folhas dos pés vizinhos. Recolha as folhas caídas.",
-      "call": "Chame o técnico da extensão rural se vários pés tiverem pó, ou se as folhas estiverem caindo antes da hora.",
+      "call": "Chame o técnico agrícola se vários pés tiverem pó, ou se as folhas estiverem caindo antes da hora.",
       "source": "Sintomas: BRACOL (Esgario et al., 2020). Orientação: recomendações gerais sobre ferrugem; confirme com a assistência técnica local."
     },
     "en": {
@@ -49,9 +49,9 @@
   "cercospora": {
     "pt": {
       "name": "Cercosporiose (mancha-de-olho-pardo)",
-      "looks": "Manchas pequenas, redondas e marrons, com o centro cinza-claro, muitas vezes com um anel amarelo.",
+      "looks": "Manchas marrons redondas com centro claro e halo amarelo.",
       "today": "Veja se este pé pega sol forte o dia todo ou parece mal nutrido. Mantenha cobertura morta em volta do tronco.",
-      "call": "Chame o técnico da extensão rural se as manchas aparecerem também nos frutos.",
+      "call": "Chame o técnico agrícola se as manchas aparecerem também nos frutos.",
       "source": "Sintomas: BRACOL (Esgario et al., 2020). Orientação: recomendações gerais sobre cercosporiose; confirme com a assistência técnica local."
     },
     "en": {
@@ -71,10 +71,10 @@
   },
   "phoma": {
     "pt": {
-      "name": "Mancha de Phoma",
-      "looks": "Áreas mortas, marrom-escuras a pretas, com bordas irregulares, muitas vezes começando pela ponta ou pela borda.",
+      "name": "Mancha-de-phoma",
+      "looks": "Áreas escuras, quase pretas, geralmente na borda ou na ponta da folha.",
       "today": "Anote onde fica este pé na lavoura. Veja se ele pega vento frio.",
-      "call": "Chame o técnico da extensão rural se os brotos novos estiverem secando.",
+      "call": "Chame o técnico agrícola se os brotos novos estiverem secando.",
       "source": "Sintomas: BRACOL (Esgario et al., 2020). Orientação: recomendações gerais sobre Phoma; confirme com a assistência técnica local."
     },
     "en": {
@@ -95,9 +95,9 @@
   "miner": {
     "pt": {
       "name": "Bicho-mineiro",
-      "looks": "Manchas marrom-claras, secas, como papel, de formato irregular; a película da folha se solta.",
+      "looks": "Manchas marrons secas e irregulares, causadas por larvas dentro da folha.",
       "today": "Em pé pouco atacado, retire as folhas minadas e destrua-as. Não pulverize sem orientação: o veneno também mata os insetos que comem o bicho-mineiro.",
-      "call": "Chame o técnico da extensão rural se muitas folhas, em muitos pés, estiverem minadas.",
+      "call": "Chame o técnico agrícola se muitas folhas, em muitos pés, estiverem minadas.",
       "source": "Sintomas: BRACOL (Esgario et al., 2020). Orientação: recomendações gerais sobre bicho-mineiro; confirme com a assistência técnica local."
     },
     "en": {
@@ -118,9 +118,9 @@
   "unsure": {
     "pt": {
       "name": "Não tenho certeza",
-      "looks": "Não dá para saber por esta foto, então o aplicativo não vai chutar.",
+      "looks": "Mostre a folha a um técnico agrícola.",
       "today": "Tire a foto de novo: uma folha só, ocupando a foto, com boa luz.",
-      "call": "Ainda sem certeza? A foto foi salva. Mostre a folha ao técnico da extensão rural; ela será enviada quando houver sinal.",
+      "call": "Ainda sem certeza? A foto foi salva. Mostre a folha ao técnico agrícola; ela será enviada quando houver sinal.",
       "source": "O aplicativo só responde quando tem confiança suficiente. Quem decide é uma pessoa."
     },
     "en": {

@@ -1,8 +1,8 @@
 {
-  "model_label": "coffee-leaf-check Qwen3.5-2B base Q2 + LoRA Q8_0",
-  "model_file": "models/coffee-leaf-check/model/Qwen3.5-2B-coffee-base-Q2.gguf",
-  "mmproj_file": "models/coffee-leaf-check/model/mmproj-Qwen3.5-2B-coffee-Q8_0.gguf",
-  "lora_file": "models/coffee-leaf-check/model/Qwen3.5-2B-coffee-lora-Q8_0.gguf",
+  "model_label": "coffee-leaf-check Qwen3.5-2B eQ2_K + coffee LoRA Q8_0",
+  "model_file": "models/hf/Qwen3.5-2B-ours-task-1GBpkg-eQ2_K.gguf",
+  "mmproj_file": "models/hf/mmproj-Qwen3.5-2B-ours-coffee-Q8_0.gguf",
+  "lora_file": "models/hf/Qwen3.5-2B-ours-coffee-lora-Q8_0.gguf",
   "tau": 0.5,
   "tau_note": "placeholder until Youchan sends the final tau",
   "very_likely": 0.8,
@@ -13,9 +13,9 @@
   "server": "",
   "port": 8080,
   "threads": 0,
-  "ctx": 8192,
+  "ctx": 4096,
   "mock": false,
-  "prompt_file": "models/coffee-leaf-check/prompt.txt",
+  "prompt_file": "prompt.txt",
   "letters": "ABCDEF",
   "unsure_letter": "F",
   "classes": {
@@ -43,5 +43,13 @@
   },
   "chat_template_kwargs": {
     "enable_thinking": false
-  }
+  },
+  "leaf_gate": {
+    "enabled": true,
+    "note": "Extra request BEFORE the package diagnosis. The fine-tuned model never picks F, so non-leaf photos got confident diseases (building -> C 0.94, cartoon -> D 0.85). Same model, LoRA on, the package system text, a yes/no question. Not a leaf = P(A) <= P(B) -> 'not sure, retake', not queued. Mac test: 21 leaves (20 BRACOL test + 1 field photo) P(A) >= 0.88; building 0.005, cartoon 0.14.",
+    "system": null,
+    "user": "Is this a close-up photo of a plant leaf?\nA Yes, a plant leaf fills most of the photo.\nB No.\nAnswer with one letter.",
+    "grammar": "root ::= [AB]"
+  },
+  "ctx_note": "-c 4096: peak RSS 1.66 GB in the 3 GB emulator, same as 8192; one photo + prompt is ~300 tokens."
 }

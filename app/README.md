@@ -15,8 +15,8 @@ airplane mode. No external scripts, fonts or styles.
 
 ## Run
 
-    # model package (private HF repo) into app/models/coffee-leaf-check/
-    hf download uchaan/coffee-leaf-check-qwen3.5-2b-gguf --local-dir app/models/coffee-leaf-check
+    # model package: unzip hf.zip into app/models/hf/ (flat), check SHA-256 against the package table
+    unzip hf.zip -x '__MACOSX/*' '*.DS_Store' -d app/models/
 
     # desktop, any machine with llama.cpp:   bash app/run_phone.sh  →  http://127.0.0.1:8080/
     # desktop, no model:                     python3 -m http.server 8765 (in app/) → http://127.0.0.1:8765/?mock
@@ -50,13 +50,40 @@ Findings from running it (llama.cpp 0.5.0 / b11146, placeholder Unsloth 0.8B):
   letter is unaffected; tau is applied to the raw probability. Harness and app must agree on this.
 - The sampled token often differs from the top letter, so reading probabilities matters.
 
+## Leaf check before the diagnosis (added, please review)
+
+The fine-tuned model never picks F: on photos that are not leaves it gives a confident disease
+(a building → C 0.94, a cartoon house → D 0.85), far above tau, so "not sure" never fires. That
+fails the brief's pass/fail "not sure, ask a person" rule the first time a judge points the camera at
+something else.
+
+So the app sends one extra request first, then the package diagnosis unchanged:
+same model, adapter as loaded, the package system text, the image, and
+`Is this a close-up photo of a plant leaf? A Yes, a plant leaf fills most of the photo. B No.`
+with grammar `root ::= [AB]`. If P(A) ≤ P(B): "Isto não parece uma folha", retake, not queued.
+
+Mac, 20 BRACOL test images (4 per class, SHA-checked against manifest.csv) + 1 field photo of rust on
+the plant: P(A) ≥ 0.88 for every leaf; building 0.005, cartoon 0.14. Small sample; it would be worth
+running over the whole test split plus a set of non-leaf photos in the harness. The server does not
+reuse the encoded image between the two requests (cache stops before the image), so it costs a
+second image pass. `config.json` → `leaf_gate.enabled: false` turns it off.
+
 ## Measured
 
 | Where | Model | Per photo | Peak RSS |
 |---|---|---|---|
 | Mac M4 Pro (Metal) | placeholder 0.8B Q4_K_M + F16 mmproj | ~0.7 s | – |
 | Android emulator, **3 GB RAM, 4 cores**, airplane mode | same | 2.9–4.7 s | **1.04 GB** (1.2 GB free) |
+| Mac M4 Pro (Metal) | **final package** (eQ2_K + LoRA + Q8_0 mmproj) | ~0.65 s incl. leaf check | – |
+| Android emulator, 3 GB, 4 cores, airplane mode | **final package**, `-c 8192` and `-c 4096` | ~6 s leaf check + ~8 s diagnosis | **1.66 GB** both (0.9 GB left) |
 | Galaxy Z Flip5 (SM-F731U1, SD 8 Gen 2, 7 GB) | final package | to do | to do |
+
+Final package on the Mac, BRACOL test images: 18/20 top letters correct (both misses C, read as B
+and D); letters sum to 0.998–1.000. In the 3 GB emulator with Chrome open, Android's low-memory
+killer once killed Chrome's renderer and other apps while llama-server held 1.65 GB; with nothing
+else open it did not. `-c 4096` does not lower the peak (one photo + prompt is ~300 tokens).
+
+Sample, `C_1574.jpg` (test, truth C): A 0.00, B 0.01, C 0.89, D 0.01, E 0.08, F 0.00.
 
 The emulator shows **fit in 3 GB**, not budget-phone speed: its cores are the host Mac's.
 
@@ -72,4 +99,5 @@ Portuguese.
 
 - Sending the queue (stub).
 - The optional one-sentence explanation + translator (package `translate/`).
-- Native-speaker check of the pt-BR cards (replace with the package's `translate_pt.py` CARDS).
+- Native-speaker check of the pt-BR "do today" / "call" lines (name + description are the package CARDS).
+- Exact-token parsing: `" A"` and `"a"` also appear in the top 6; the app counts only the exact letters.

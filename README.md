@@ -11,6 +11,7 @@ iterates on its own until every size target is met. → [`agentic-quantization/`
 | Path | What |
 |---|---|
 | [`agentic-quantization/`](agentic-quantization/) | agentic GGUF quantization pipeline, benchmark, results |
+| [`fine-tuning/`](fine-tuning/) | LoRA on the quantized base, CNN / YOLO baselines |
 | [`app/`](app/) | Android app (to be added) |
 
 ## Model
@@ -31,31 +32,49 @@ llama-server -m Qwen3.5-2B-coffee-base-Q2.gguf --mmproj mmproj-Qwen3.5-2B-coffee
 
 ## Results
 
-Five classes (healthy, rust, brown eye spot, phoma, leaf miner); accuracy / macro-F1.
+### Original vs ours
 
-| Model | Package | LM bpw | BRACOL test (1,266) | JMuBEN held-out (240) |
-|---|---:|---:|---|---|
-| **This package** (base Q2 + LoRA + fine-tuned projector) | 1.01 GB | 2.66 | **90.8 % / 0.880** | **98.3 % / 0.984** |
-| Qwen3.5-2B BF16, no fine-tuning | 4.26 GB | 16.0 | 60.9 % / 0.584 | |
-| ResNet50, same training data | 0.09 GB | – | 88.5 % | 99.2 % |
-| YOLO11m-cls, same training data | 0.02 GB | – | 88.5 % | 97.9 % |
+Same evaluation server (RTX 4090); Δ against the original BF16 model.
 
-**Quantization alone** (no adapter) vs the smallest Unsloth file:
+| | Original BF16 | Ours, quantized only | Δ | **Ours, final package** | Δ |
+|---|---:|---:|---:|---:|---:|
+| Package size | 4.26 GB | 1.00 GB | ÷4.3 | **1.01 GB** | ÷4.2 |
+| LM bpw | 16.0 | 2.66 | | 2.66 | |
+| BRACOL test F1 | 0.582 | 0.578 | −0.004 | **0.881** | **+0.299** |
+| BRACOL test accuracy | 60.6 % | 56.6 % | −4.0 pt | **90.9 %** | **+30.3 pt** |
+| JMuBEN F1, 2,184 images | 0.474 | 0.485 | +0.010 | –¹ | |
+| JMuBEN F1, 240 held-out originals | 0.595 | 0.543 | −0.052 | **0.984**¹ | **+0.389** |
+| MMStar (image understanding) | 0.494 | 0.437 | −0.057 | 0.479 | −0.015 |
+| AI2D (diagrams) | 0.737 | 0.569 | −0.168 | 0.673 | −0.064 |
+| MMLU-Redux (text knowledge) | 0.604 | 0.341 | −0.263 | 0.500 | −0.104 |
 
-| Benchmark | Ours, base Q2 (0.64 GB, 2.66 bpw) | Unsloth UD-IQ2_XXS (0.77 GB, 3.22 bpw) |
-|---|---:|---:|
-| BRACOL macro-F1 | **0.578** | 0.313 |
-| MMStar | **0.439** | 0.256 |
-| AI2D | **0.574** | 0.248 |
-| MMLU-Redux | **0.340** | 0.292 |
+¹ The final package was trained on JMuBEN photos; only the 240 held-out originals are a fair number for it
+(in-domain: read it as same-dataset performance).
 
-- No BRACOL or JMuBEN test image was used for training or selection.
-- JMuBEN held-out is in-domain (rotated / flipped copies grouped so they never cross train and test): read it as
-  same-dataset performance.
-- On an unseen photo domain, CNNs drop to about 15–28 % F1 and this model to about 47 %.
-- Fine-tuning code is not part of this repository; this repository covers the quantization.
+- Quantization keeps the coffee-leaf accuracy at a 4.3× smaller package; general ability pays for 2.66 bpw.
+- Fine-tuning adds 30 points on coffee leaves and narrows the general gap (mostly better one-letter compliance).
+- The released adapter was picked among three by test score; the validation pick scores 87.5 % / F1 0.840.
 
-Training data: BRACOL dev (337 train, 82 for epoch choice) + 559 JMuBEN originals.
+### Against public quantized files (no fine-tuning)
+
+| File | LM size | LM bpw | Package | BRACOL F1 | MMStar | AI2D | MMLU-Redux |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| **Ours** | 0.64 GB | 2.66 | 1.00 GB | **0.578** | **0.437** | **0.569** | **0.341** |
+| Unsloth UD-IQ2_XXS (smallest Unsloth) | 0.77 GB | 3.22 | 1.13 GB | 0.313 | 0.265 | 0.257 | 0.291 |
+| mradermacher i1-IQ1_S | 0.64 GB | 2.67 | 1.00 GB | 0.059 | 0.237 | 0.187 | 0.220 |
+
+### Against CNNs (same training data, A100)
+
+| Model | Size | BRACOL test acc / F1 | JMuBEN held-out acc / F1 | JMuBEN F1, trained on BRACOL only |
+|---|---:|---|---|---:|
+| **Ours, final package** | 1.01 GB | 90.8 % / 0.880 | 98.3 % / 0.984 | **0.472** |
+| ResNet50 | 0.09 GB | 88.5 % / 0.854 | 99.2 % / 0.987 | 0.132 |
+| YOLO11m-cls | 0.02 GB | 88.5 % / 0.853 | 97.9 % / 0.979 | 0.237 |
+
+Similar accuracy in-domain; on a different photo domain the VLM degrades far less, and it can explain its answer and
+say "not sure".
+
+Training data: BRACOL dev (337 train, 82 for epoch choice) + 559 JMuBEN originals; no test image used for training.
 
 ## Credits
 

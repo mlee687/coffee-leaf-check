@@ -1,0 +1,47 @@
+{
+  "model_label": "coffee-leaf-check Qwen3.5-2B base Q2 + LoRA Q8_0",
+  "model_file": "models/coffee-leaf-check/model/Qwen3.5-2B-coffee-base-Q2.gguf",
+  "mmproj_file": "models/coffee-leaf-check/model/mmproj-Qwen3.5-2B-coffee-Q8_0.gguf",
+  "lora_file": "models/coffee-leaf-check/model/Qwen3.5-2B-coffee-lora-Q8_0.gguf",
+  "tau": 0.5,
+  "tau_note": "placeholder until Youchan sends the final tau",
+  "very_likely": 0.8,
+  "languages": [
+    "pt",
+    "en"
+  ],
+  "server": "",
+  "port": 8080,
+  "threads": 0,
+  "ctx": 8192,
+  "mock": false,
+  "prompt_file": "models/coffee-leaf-check/prompt.txt",
+  "letters": "ABCDEF",
+  "unsure_letter": "F",
+  "classes": {
+    "A": "healthy",
+    "B": "rust",
+    "C": "cercospora",
+    "D": "phoma",
+    "E": "miner",
+    "F": "unsure"
+  },
+  "image": {
+    "longest_side": 512,
+    "jpeg_quality": 0.9
+  },
+  "sampling": {
+    "temperature": 1,
+    "top_k": 0,
+    "top_p": 1,
+    "min_p": 0,
+    "n_probs": 6,
+    "post_sampling_probs": true,
+    "logprobs": true,
+    "top_logprobs": 6,
+    "max_tokens": 1
+  },
+  "chat_template_kwargs": {
+    "enable_thinking": false
+  }
+}

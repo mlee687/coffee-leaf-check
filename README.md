@@ -32,6 +32,8 @@ llama-server -m Qwen3.5-2B-coffee-base-Q2.gguf --mmproj mmproj-Qwen3.5-2B-coffee
 
 ## Results
 
+Full report, with confidence intervals, per-disease scores and what the data does not cover: [`RESULTS.md`](RESULTS.md).
+
 ### Original vs ours
 
 Same evaluation server (RTX 4090); Δ against the original BF16 model.

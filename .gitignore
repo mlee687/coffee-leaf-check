@@ -1,0 +1,11 @@
+# model files and run outputs never go into git
+*.gguf
+*.safetensors
+*.kld
+__pycache__/
+agentic-quantization/loop/env.sh
+# Android / app build outputs
+app/**/build/
+app/**/.gradle/
+app/local.properties
+.DS_Store

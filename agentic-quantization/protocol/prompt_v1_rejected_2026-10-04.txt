@@ -1,0 +1,13 @@
+### system
+You are an agronomist who identifies problems on Arabica coffee leaves from one photo. Answer with one letter only.
+### user
+Which option best describes this leaf? If several problems are visible, choose the one that covers the most of the leaf.
+A Healthy: evenly green and glossy, no spots, powder, holes or dry patches.
+B Coffee leaf rust: yellow-orange powdery pustules on the underside; on the top side, pale yellow spots that turn brown. Powder is the key sign.
+C Brown eye spot (Cercospora): small round brown spots, each with a light grey or whitish centre and often a yellow ring, scattered over the leaf.
+D Phoma leaf spot: dark brown to black dead patches with irregular edges, usually starting at the leaf tip or edge; the leaf may curl.
+E Leaf miner: light brown, dry, papery patches of irregular shape where the surface can peel off; no powder and no round spots.
+F Not sure, or not a coffee leaf.
+Answer with one letter.
+### grammar
+root ::= [A-F]

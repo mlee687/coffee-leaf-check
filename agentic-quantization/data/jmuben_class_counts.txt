@@ -1,0 +1,5 @@
+A files 18984 distinct 63 undecodable before the cut 1 used 62
+B files 8336 distinct 1042 undecodable before the cut 0 used 600
+C files 7681 distinct 322 undecodable before the cut 0 used 322
+D files 6571 distinct 691 undecodable before the cut 0 used 600
+E files 16978 distinct 1639 undecodable before the cut 0 used 600

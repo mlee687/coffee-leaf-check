@@ -1,0 +1,7 @@
+excluded (code 5): 62
+A total 272 dev 68 test 204
+B total 531 dev 132 test 399
+C total 147 dev 36 test 111
+D total 348 dev 87 test 261
+E total 387 dev 96 test 291
+all dev 419 test 1266
